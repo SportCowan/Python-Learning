@@ -1,0 +1,7 @@
+This was the first milestone project in the python udemy course I am taking. This was written in Python using Jupiter Notebook, and is run by running the 
+method play_game() in a new line. I definitely didn't choose the best way to make it, but I wanted it to be very readable rather than efficient. Also, the
+clear_screen() method which is unique to Jupiter Notebook for some reason made the game have a weird format at player 2's 4th move. I can't figure out why
+that happens, but also if you just get rid of that method entirely the game works fine. It just creates new lines to print the next board on rather than 
+replacing those lines. Finally, I'm a braindead monkey and forgot to make it so that "x" always goes first. Instead, player 1 always goes first, and I'm too
+lazy to fix that considering nobody is ever going to see this. I've already spent 3 hours just fixing certain weird things that I don't really know about yet
+since I've only just started learning python.
