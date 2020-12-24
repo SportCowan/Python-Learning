@@ -1,6 +1,8 @@
+#this is appparently unique to Jupiter Notbebook (which I wrote this in). It is not necessary for the game, just helps with formatting
 from IPython.display import clear_output
 
 #important variables
+#i just made all these variables global because the scope rules seem to require that for other methods to take them
 pos = [""," "," "," "," "," "," "," "," "," "]
 p2_letter = ""
 p1_letter = ""
@@ -12,6 +14,8 @@ last_mover = ""
 #starts the game and gives players desired 'x' and 'o'
 def start_game():
     clear_output()
+    
+    #sets the variables in the game to their begining values
     global pos
     global p2_letter
     global p1_letter
@@ -20,10 +24,12 @@ def start_game():
     global num_moves
     pos = [""," "," "," "," "," "," "," "," "," "]
     p2_letter = ""
-    p1_letter = input("Player 1, will you be 'x' or 'o'? ")
     game = "not over"
     winner = ""
     num_moves = 0
+    
+    #gives player 1 the desired letter, making sure they either put 'x' or 'o'
+    p1_letter = input("Player 1, will you be 'x' or 'o'? ")
     while p1_letter.lower()!="o" and p1_letter.lower()!="x":
         p1_letter = input("that's not an 'x' or 'o'")
     if p1_letter.lower() == "x":
@@ -32,10 +38,14 @@ def start_game():
     else:
         p1_letter = "o"
         p2_letter = "x"
+    
+    #explains the game
     print("Player 1: You are " + p1_letter)
     print("Player 2: You are " + p2_letter)
     print("You will be asked to input a number 1-9 to place your x's and o's.")
     print("Use the numpad as a reference for which number corresponds to which square")
+    print("Win by making your letter 3 in a row, column, or diagonal")
+    print("Good Luck")
 
 #displays the game board
 def display_game():
@@ -55,11 +65,10 @@ def check_game_status():
     global pos
     global num_moves
     global last_mover
+    
+    #all possible rows,columns,diagonals
     if num_moves >= 3:
-        if num_moves == 5:
-            last_mover = ""
-            return True
-        elif pos[7] == pos[8] and pos[8] == pos[9] and pos[7] != " ":
+        if pos[7] == pos[8] and pos[8] == pos[9] and pos[7] != " ":
             return True
         elif pos[7] == pos[4] and pos[4] == pos[1] and pos[7] != " ":
             return True
@@ -75,6 +84,11 @@ def check_game_status():
             return True
         elif pos[1] == pos[2] and pos[2] == pos[3] and pos[3] != " ":
             return True
+        
+        #5 moves means board is full, and if all of the above don't return true, the game must be a draw
+        elif num_moves == 5:
+            last_mover = ""
+            return True
     return False
 
 #bulk of the game where user makes moves
@@ -82,10 +96,15 @@ def make_moves():
     global num_moves
     global last_mover
     num_moves = 0
+    
+    #this while loop holds the whole game pretty much
     while (not check_game_status()):
         num_moves+=1
         p1_input = ""
         p2_input = ""
+        
+        #has the user enter a number to place their letter a particular spot on the board
+        #makes sure it is an integer between 1 and 9 that hasn't been placed already
         while (p1_input.isdigit() == False): 
             p1_input = input("Player 1: give a number 1-9 to place " + p1_letter + " ")
             while (int(p1_input) < 1 or int(p1_input) > 9):
@@ -96,12 +115,18 @@ def make_moves():
                     p1_input = input("That is not a digit ")
                     while(int(p1_input) >= 1 and int(p1_input) <= 9):
                         p1_input = input("That is not a valid number. Enter a digit 1-9 ")
+        
+        #applies their choice to the board and updates the board
         pos[int(p1_input)] = p1_letter
         clear_output()
         display_game()
         last_mover = p1_letter
+        
+        #ends the game if player 1 wins
         if check_game_status():
             break
+        
+        #repeats above process for player 2
         while (p2_input.isdigit() == False): 
             p2_input = input("Player 2: give a number 1-9 to place " + p2_letter + " ")
             while (int(p2_input) < 1 or int(p2_input) > 9):
@@ -117,7 +142,7 @@ def make_moves():
         display_game()
         last_mover = p2_letter
         
-#ends the game and restarts if the user requests so
+#ends the game and declares the winner or draw
 def end_game():
     if last_mover == "":
         print("The match was a draw")
@@ -134,6 +159,8 @@ def play_game():
     display_game()
     make_moves()
     end_game()
+    
+    #everything below just determins whether or not to play the game again
     play_again = ""
     while play_again != "y" and play_again != "n":
         play_again = input("Enter 'y' if you want to play again and 'n' if you do not ")
