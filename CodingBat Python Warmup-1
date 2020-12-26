@@ -179,9 +179,12 @@ def missing_char(str,n):
 #front_back('ab') → 'ba'
 
 def front_back(str):
-    first = str[-1]
-    last = str[0]
-    mid = str[1:-1]
+    if len(str) <= 1:
+        return str
+    else:
+        first = str[-1]
+        last = str[0]
+        mid = str[1:-1]
     return first + last + mid
 
 
