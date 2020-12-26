@@ -185,7 +185,7 @@ def front_back(str):
         first = str[-1]
         last = str[0]
         mid = str[1:-1]
-    return first + last + mid
+    return first + mid + last
 
 
 #front3
